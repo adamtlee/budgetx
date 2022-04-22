@@ -15,5 +15,7 @@ namespace Models
         public decimal CarInsurance { get; set; }
         public decimal Subscriptions { get; set; }
         public decimal Investments { get; set; }
+        public decimal Food { get; set; }  
+        public decimal DogExpenses { get; set; }
     }
 }
