@@ -8,21 +8,26 @@ namespace Budgetx
 {
     public class Program
     {
+        
         public static void Main(string[] args)
         {
             IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
+               .AddJsonFile("appsettings.json")
+               .AddEnvironmentVariables()
+               .Build();
 
-            CalculatePaymentsService calculatePaymentsService = new CalculatePaymentsService();
-
-           
+            Payments payments = config.GetRequiredSection("Payments").Get<Payments>();
             Income income = config.GetRequiredSection("Income").Get<Income>();
 
-            var monthlyIncome = income.Salary / 12;
-            var biWeeklyIncome = monthlyIncome / 2;
-            var baseMonthlyPayments = calculatePaymentsService.totalPayments(); 
+            CalculateIncomeService calculateIncomeService = new CalculateIncomeService();
+            CalculatePaymentsService calculatePaymentsService = new CalculatePaymentsService();
+
+
+
+
+            var monthlyIncome = calculateIncomeService.monthlyIncome(income);
+            var biWeeklyIncome = calculateIncomeService.biWeeklyIncome(income);
+            var baseMonthlyPayments = calculatePaymentsService.totalMonthlyPayments(payments); 
             var remainingBalance = monthlyIncome - baseMonthlyPayments;
 
             Console.WriteLine(income.Salary);
@@ -32,11 +37,6 @@ namespace Budgetx
             Console.WriteLine($"Remaining Balance: {remainingBalance}");
 
 
-        }
-
-        public decimal CalculateBasePayment(Payments payments, Income income)
-        {
-            return 0; 
         }
     }
 }

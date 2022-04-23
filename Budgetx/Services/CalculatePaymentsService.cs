@@ -9,16 +9,9 @@ using System.Threading.Tasks;
 namespace Budgetx.Services
 {
     public class CalculatePaymentsService
-    {
-        IConfiguration config = new ConfigurationBuilder()
-               .AddJsonFile("appsettings.json")
-               .AddEnvironmentVariables()
-               .Build();
-
-        
-        public decimal totalPayments()
+    {  
+        public decimal totalMonthlyPayments(Payments payments)
         {
-            Payments payments = config.GetRequiredSection("Payments").Get<Payments>();
             return payments.Rent + payments.Loans + payments.Subscriptions + payments.Investments + payments.DogExpenses + payments.Food;
         }
     }
